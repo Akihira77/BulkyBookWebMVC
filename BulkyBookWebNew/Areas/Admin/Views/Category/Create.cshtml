@@ -1,0 +1,53 @@
+﻿@model Category
+
+<form method="post" class="container">
+	@*<div asp-validation-summary="All"></div>*@
+
+	<div class="border p-3 mt-4">
+		<div class="row pb-2">
+			<h2 class="text-primary">Create Category</h2>
+			<hr />
+		</div>
+
+		<div class="mb-3">
+			<label class="form-label" asp-for="Name">Name <span class="text-danger">*</span></label>
+			<input class="form-control" asp-for="Name" />
+			<span asp-validation-for="Name" class="text-danger"></span>
+		</div>
+
+		<div class="mb-3">
+			<label class="form-label" asp-for="DisplayOrder">Display Order <span class="text-danger">*</span></label>
+			<input class="form-control" asp-for="DisplayOrder"/>
+			<span asp-validation-for="DisplayOrder" class="text-danger"></span>
+		</div>
+		@*<button type="button" class="btn btn-primary" style="width: 150px" data-bs-toggle="modal" data-bs-target="#confirmModal">Create</button>*@
+		<button type="submit" class="btn btn-primary" style="width: 150px">Create</button>
+		<a asp-controller="Category" asp-action="Index" class="btn btn-secondary" style="width: 150px">Back to List</a>
+
+		<!-- Modal -->
+		@*<div class="modal fade" id="confirmModal" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+			<div class="modal-dialog modal-dialog-centered">
+				<div class="modal-content">
+					<div class="modal-header">
+						<h5 class="modal-title">Konfirmasi</h5>
+						<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+					</div>
+					<div class="modal-body">
+						<p>Apakah Data sudah benar?</p>
+					</div>
+					<div class="modal-footer">
+						<button type="button" class="btn btn-secondary" data-bs-dismiss="modal" style="width: 150px">Cancel</button>
+						<button type="submit" class="btn btn-primary" style="width: 150px">Confirm</button>
+					</div>
+				</div>
+			</div>
+		</div>*@
+		<!-- End Modal -->
+	</div>
+</form>
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+}

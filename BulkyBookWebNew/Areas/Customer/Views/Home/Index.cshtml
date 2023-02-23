@@ -1,0 +1,110 @@
+﻿@model BulkyBook.Models.ViewModels.HomeViewModel
+
+@{
+	string category = Context.Request.Query["CategoryFilter"].ToString();
+}
+
+<div class="d-flex mw-100">
+	@*sidebar*@
+	<aside style="width: 460.8px; min-height: 100vh" class="position-relative bg-dark sidebar">
+
+		@*close Nav*@
+		<button class="position-absolute mt-3 me-3 top-0 end-0 closebtn bg-danger text-white border-0" onclick="closeNav()"><i class="bi bi-x-lg"></i></button>
+		<form method="get" class="mx-auto input-group" role="search" style="margin-top: 100px; width: 90%">
+			<input asp-for="@Model.BookName" class="form-control" type="search" placeholder="Search book" aria-label="Search">
+			<button type="submit" class="btn btn-primary" style="height: 100%"><i class="bi bi-search"></i></button>
+			<hr />
+			<div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark ms-3" style="width: 75%">
+				<span class="fs-4">Category</span>
+				<ul class="nav nav-pills flex-column mb-auto">
+					<li class="nav-item">
+						@if (category != null && category == "all")
+						{
+							<a asp-route-CategoryFilter="all" class="nav-link text-white active">All</a>
+							<input asp-for="@Model.CategoryFilter" value="all" hidden>
+						} else
+						{
+							<a asp-route-CategoryFilter="all" class="nav-link text-white">All</a>
+						}
+					</li>
+					@foreach (var item in Model.Categories)
+					{
+						<li class="nav-item">
+							@if (category != null && item.Name == category)
+							{
+								<input asp-for="@Model.CategoryFilter" value="@item.Name" hidden>
+								<a asp-route-CategoryFilter="@item.Name" class="nav-link text-white active">@item.Name</a>
+							} else
+							{
+								<a asp-route-CategoryFilter="@item.Name" class="nav-link text-white">@item.Name</a>
+							}
+						</li>
+					}
+				</ul>
+			</div>
+		</form>
+	</aside>
+	<div id="main" class="pt-3 bg-dark">
+		<button class="openbtn"
+				onclick="openNav()">
+			<i class="bi bi-list"></i>
+		</button>
+		<!-- for the sidebar button-->
+	</div>
+	<div class="row mx-5 w-100 pb-3">
+		@foreach (var product in Model.Products)
+		{
+			<div class="col-xl-3 col-lg-4 col-sm-6">
+				<div class="row p-2">
+					<div class="col-12 p-1" style="border: 1px solid #008cba; border-radius: 5px;">
+						<div class="card">
+							<img src="@product.ImageUrl" class="card-img-top rounded" />
+							<div class="card-body">
+								<div class="text-center" style="height: 5rem">
+									<p class="card-title h5 text-primary fs-4">@product.Title</p>
+									<p class="card-title h5 text-info" style="font-size: 14px">by <b>@product.Author</b></p>
+								</div>
+								<div class="pl-1 d-flex justify-content-between">
+									<p class="text-end text-warning">List Price: <strike><b>$@product.ListPrice.ToString("0.00")</b></strike></p>
+									<p class="text-end text-success"><b>$@product.Price100.ToString("0.00")</b></p>
+								</div>
+							</div>
+						</div>
+						<div>
+							<a asp-action="Details" asp-route-productId="@product.Id" class="btn btn-primary form-control">Details</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		}
+	</div>
+</div>
+
+@section Scripts {
+	<script>
+		/* Sets the width of the sidebar 
+		to 250 and the left margin of the 
+		page content to 250 */
+		function openNav() {
+			$(".sidebar").css({
+				"width" : 460.8 + "px",
+				"display" : "block"
+			});
+			//$(".sidebar").transition({ x: "0" })
+			$("#main").css({
+				"display" : "none"
+			});
+		}
+  
+		/* Set the width of the sidebar 
+		to 0 and the left margin of the 
+		page content to 0 */
+		function closeNav() {
+			$(".sidebar").css("width", "0");
+			//$(".sidebar").transition({x : "-30vw"})
+			$("#main").css({
+				"display": "block"
+			});
+		}
+	</script>
+}

@@ -1,0 +1,127 @@
+﻿@model BulkyBook.Models.ViewModels.ProductViewModel
+
+<form method="post" class="container mb-5" enctype="multipart/form-data">
+	<input hidden asp-for="Product.Id" />
+	<input hidden asp-for="Product.ImageUrl" />
+	<div class="row">
+		<div class="col-10">
+			<div class="border p-3 mt-4 row">
+				<div class="col-12 pb-2">
+					<h2 class="text-primary">@(Model.Product.Id != 0 ? "Update" : "Create") Product</h2>
+					<hr />
+				</div>
+
+				<div class="mb-3">
+					<label class="form-label" asp-for="Product.Title">Title <span class="text-danger">*</span></label>
+					<input class="form-control" asp-for="Product.Title" />
+					<span asp-validation-for="Product.Title" class="text-danger"></span>
+				</div>
+				<div class="mb-3">
+					<label class="form-label" asp-for="Product.Description">Description <span class="text-danger">*</span></label>
+					<textarea class="form-control" asp-for="Product.Description" rows="3"></textarea>
+					<span asp-validation-for="Product.Description" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label class="form-label" asp-for="Product.ISBN">ISBN <span class="text-danger">*</span></label>
+					<input class="form-control" asp-for="Product.ISBN" />
+					<span asp-validation-for="Product.ISBN" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label class="form-label" asp-for="Product.Author">Author <span class="text-danger">*</span></label>
+					<input class="form-control" asp-for="Product.Author" />
+					<span asp-validation-for="Product.Author" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label class="form-label" asp-for="Product.ListPrice">List Price <span class="text-danger">*</span></label>
+					<input class="form-control" asp-for="Product.ListPrice" />
+					<span asp-validation-for="Product.ListPrice" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label class="form-label" asp-for="Product.Price">Price 1 - 50<span class="text-danger">*</span></label>
+					<input class="form-control" asp-for="Product.Price" />
+					<span asp-validation-for="Product.Price" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label class="form-label" asp-for="Product.Price50">Price 51 - 100<span class="text-danger">*</span></label>
+					<input class="form-control" asp-for="Product.Price50" />
+					<span asp-validation-for="Product.Price50" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label class="form-label" asp-for="Product.Price100">Price 100+ <span class="text-danger">*</span></label>
+					<input class="form-control" asp-for="Product.Price100" />
+					<span asp-validation-for="Product.Price100" class="text-danger"></span>
+				</div>
+				<div class="mb-3">
+					<label class="form-label" asp-for="Product.ImageUrl">Image <span class="text-danger">*</span></label>
+					<input type="file" class="form-control" id="uploadBox" name="file" />
+				</div>
+				<div class="mb-3  col-6">
+					<label class="form-label" asp-for="Product.CategoryId">Category <span class="text-danger">*</span></label>
+					<select asp-for="Product.CategoryId" asp-items="@Model.CategoryList" class="form-select">
+						<option disabled selected>---Select Category---</option>
+					</select>
+					<span asp-validation-for="Product.CategoryId" class="text-danger"></span>
+				</div>
+				<div class="mb-3 col-6">
+					<label class="form-label" asp-for="Product.CoverTypeId">Cover Type <span class="text-danger">*</span></label>
+					<select asp-for="Product.CoverTypeId" asp-items="@Model.CoverTypeList" class="form-select">
+						<option disabled selected>---Select CoverType---</option>
+					</select>
+					<span asp-validation-for="Product.CoverTypeId" class="text-danger"></span>
+				</div>
+				@*		<div class="mb-3">
+				<label class="form-label" asp-for="Category">Category <span class="text-danger">*</span></label>
+				<select asp-for="CategoryId" asp-items="ViewBag.CategoryList" class="form-select">
+				<option disabled selected>---Select Category---</option>
+				</select>
+				<span asp-validation-for="CategoryId" class="text-danger"></span>
+				</div>
+				<div class="mb-3">
+				<label class="form-label" asp-for="CoverType">Cover Type <span class="text-danger">*</span></label>
+				<select asp-for="CoverTypeId" asp-items="@(ViewData["CoverTypeList"] as IEnumerable<SelectListItem>)" class="form-select">
+				<option disabled selected>---Select CoverType---</option>
+				</select>
+				<span asp-validation-for="CoverTypeId" class="text-danger"></span>
+				</div>*@
+
+				<div class="col-12">
+					@if (Model.Product.Id != 0)
+					{
+						<button type="submit" class="btn btn-primary" style="width: 150px">Update</button>
+					} else
+					{
+						<button onclick="return ValidateInput()" type="submit" class="btn btn-primary" style="width: 175px">Create</button>
+					}
+					<a asp-controller="Product" asp-action="Index" class="btn btn-secondary ms-4 border border-2" style="width: 175px">Back to List</a>
+				</div>
+			</div>
+		</div>
+		<div class="col-2 pt-4">
+			<image src="@Model.Product.ImageUrl" width="100%" style="border-radius: 5px; border: 1px solid #bbb9b9"></image>
+		</div>
+	</div>
+</form>
+
+@section Scripts {
+	@{
+		<partial name="_ValidationScriptsPartial" />
+	}
+	<script>
+		tinymce.init({
+			selector: 'textarea',
+			plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+			toolbar: 'undo redo | bold italic underline strikethrough | link image media table mergetags | addcomment showcomments | spellcheckdialog a11ycheck typography | align lineheight | checklist numlist bullist indent outdent | emoticons charmap | removeformat',
+		});
+		const ValidateInput = () => {
+			if (document.getElementById("uploadBox").value == "") {
+				Swal.fire({
+					icon: 'error',
+					title: 'Oops...',
+					text: 'Please upload an Image',
+				});
+				return false;
+			} 
+			return true;
+		}
+	</script>
+}

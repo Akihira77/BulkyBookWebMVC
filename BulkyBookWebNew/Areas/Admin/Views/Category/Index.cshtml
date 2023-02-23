@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Category>;
+
+<div class="container p-3 mb-5">
+	<div class="row pt-4">
+		<div class="col-6">
+			<h2 class="text-primary">Category List</h2>
+		</div>
+		<div class="col-6 text-end">
+			<a asp-controller="Category" asp-action="Create" class="btn btn-primary"><i class="bi bi-plus-circle"></i> &nbsp; Create Category</a>
+		</div>
+	</div>
+	<br /><br />
+
+	<table class="table table-bordered table-striped" style="width: 100%">
+		<thead>
+			<tr class="text-center align-middle">
+				<th>
+					Category Name
+				</th>
+				<th class="d-flex align-items-center mx-auto border-0">
+					@*<div style="padding-left: 25%">*@
+						Display Order
+					@*</div>*@
+					<div class="d-flex flex-column mx-auto" style="width: 20px;">
+						<a asp-controller="Category" asp-action="Index" asp-route-sort="dsc"><i class="bi bi-caret-up-fill"></i></a>
+						<a asp-controller="Category" asp-action="Index" asp-route-sort="asc"><i class="bi bi-caret-down-fill"></i></a>
+					</div>
+				</th>
+				<th>Options</th>
+			</tr>
+		</thead>
+		<tbody>
+			@foreach (var item in Model)
+			{
+				<tr>
+					<td width="40%">
+						@item.Name
+					</td>
+					<td width="30%">
+						@item.DisplayOrder
+					</td>
+					<td width="30%">
+						<div class="w-75 btn-group d-flex mx-auto" role="group">
+							<a asp-controller="Category" asp-action="Edit" asp-route-id="@item.Id" class="btn btn-info d-flex flex-column" style="width: 3rem"><i class="bi bi-pencil-square"></i> Edit</a>
+							<a asp-controller="Category" asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger d-flex flex-column" style="width: 3rem"><i class="bi bi-trash-fill"></i> Delete</a>
+						</div>
+					</td>
+				</tr>
+			}
+		</tbody>
+	</table>
+</div>
